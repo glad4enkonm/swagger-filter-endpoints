@@ -22,4 +22,4 @@ The script reads a Swagger file, filters out the specified endpoints, collects a
 
 ## Note
 
-The script currently only supports Swagger files in JSON and YAML formats. Other formats are not supported.
+The script currently only supports Swagger files in JSON and YAML formats. Other formats are not supported...
