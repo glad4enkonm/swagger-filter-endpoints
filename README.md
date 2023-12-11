@@ -15,7 +15,7 @@ The script reads a Swagger file, filters out the specified endpoints, collects a
 
 2. Run the Python script and enter the full path for your Swagger file when prompted. If no path is entered, the script will look for a file named 'swagger.json' in the same directory:
     ```bash
-    python script.py --swagger_file path_to_your_swagger_file --endpoints_to_keep /endpoint1 /endpoint2 /endpoint3
+    python main.py --swagger_file path_to_your_swagger_file --endpoints_to_keep /endpoint1 /endpoint2 /endpoint3
     ```
 
 3. The filtered Swagger data will be saved to a new YAML file named 'filtered_swagger.yaml' in the same directory.
