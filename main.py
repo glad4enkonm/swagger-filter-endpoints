@@ -4,13 +4,14 @@ import os
 import argparse
 
 # Function to get all the definitions referenced in a given operation
-def get_definitions_from_operation(operation):
-    definitions = set()
-    for response in operation.get('responses', {}).values():
-        schema = response.get('schema', {})
-        ref = schema.get('$ref')
-        if ref and ref.startswith('#/definitions/'):
-            definitions.add(ref.split('/')[-1])
+def get_definitions_from_operation(definitions, data):
+    definitions = definitions if definitions is not None else set()
+    for key, value in data.items():
+        if isinstance(value, dict):
+            definitions = get_definitions_from_operation(definitions, value)
+        else:
+            if key == '$ref' and value.startswith('#/definitions/'):
+                definitions.add(value.split('/')[-1])
     return definitions
 
 def filter_swagger(swagger_file, endpoints_to_keep):
@@ -32,7 +33,7 @@ def filter_swagger(swagger_file, endpoints_to_keep):
         if path in endpoints_to_keep:
             filtered_paths[path] = info
             for method in info.values():
-                used_definitions.update(get_definitions_from_operation(method))
+                used_definitions.update(get_definitions_from_operation(used_definitions, method))
 
     # Filter the definitions
     filtered_definitions = {def_name: def_info for def_name, def_info in swagger_data['definitions'].items() if def_name in used_definitions}
